@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>670</width>
+    <height>700</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Настройка нейронной сети</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: #FFC567
+</string>
+  </property>
+  <widget class="QWidget" name="widget">
+   <property name="styleSheet">
+    <string notr="true">QSpinBox{
+	border: 2px solid rgb(48, 25, 106);
+	padding: 10px 20px;
+	border-radius: 5px;  
+	color: rgb(48, 25, 106);
+	background-color:#fd5a46;
+	font-size: 16pt;
+}
+
+QLabel{
+	color: rgb(48, 25, 106);
+	font-size: 16pt;
+}
+
+QComboBox{
+	border: 2px solid rgb(48, 25, 106);
+	padding: 10px 20px;
+	border-radius: 5px;  
+	color: rgb(48, 25, 106);
+	background-color:#fd5a46;
+	font-size: 16pt;
+}
+
+QPushButton{
+	border: 2px solid rgb(48, 25, 106);
+	padding: 10px 20px;
+	border-radius: 5px;  
+	color: rgb(48, 25, 106);
+	background-color:#fd5a46;
+	font-size: 16pt;
+}
+
+QPushButton:hover {
+    background-color:rgb(253, 66, 49);
+}</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QListView" name="ListViewNeuralNetworkLayers">
+        <property name="styleSheet">
+         <string notr="true">QListView{
+	border: 2px solid rgb(48, 25, 106);
+	padding: 10px 20px;
+	border-radius: 5px;  
+	color: rgb(48, 25, 106);
+	background-color:#fd5a46;
+	font-size: 16pt;
+}</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QPushButton" name="ButtonAdd">
+          <property name="text">
+           <string>Добавить</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="ButtonDelete">
+          <property name="text">
+           <string>Удалить</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="LabelNeuronCount">
+          <property name="text">
+           <string>Выберите количество нейронов</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="SpinBoxNeuronCount"/>
+        </item>
+        <item>
+         <widget class="QLabel" name="LabelActivationFunction">
+          <property name="text">
+           <string>Выберите функцию активации</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="ComboBoxTypeOfActivationFunction"/>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="QLabel" name="LabelBatchSize">
+          <property name="text">
+           <string>Выберите размер батча</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="SpinBoxBatchSize"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <widget class="QLabel" name="LabelEpochCount">
+          <property name="text">
+           <string>Выберите количество эпох</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="SpinBoxEpochCount"/>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QPushButton" name="ButtonStartTraining">
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+	border: 2px solid rgb(48, 25, 106);
+	padding: 10px 20px;
+	border-radius: 5px;  
+	color: rgb(48, 25, 106);
+	background-color:#fd5a46;
+	font-size: 16pt;
+}
+
+QPushButton:hover {
+    background-color:rgb(253, 66, 49);
+}</string>
+      </property>
+      <property name="text">
+       <string>Начать обучение</string>
+      </property>
+      <property name="flat">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,5 +1,4 @@
-import sys
-import pandas as pd
+from PyQt5.QtGui import QStandardItem
 from PyQt5.QtWidgets import (
     QApplication,
     QWidget,
@@ -10,14 +9,14 @@ from PyQt5.QtWidgets import (
     QTableWidgetItem,
     QLabel,
     QComboBox,
-    QMessageBox,
     QTextEdit,
-    QListView,
+    QListView, QMainWindow,
 )
+from forms.neural_network_settings.neural_network_settings import Ui_MainWindow
 
-from sklearn.preprocessing import LabelEncoder
+from PyQt5 import uic
+import sys
 from files.data_preprocessing.data_cleaning.data_service import DataService
-
 
 
 class MainWindow(QWidget):
@@ -103,10 +102,45 @@ class DataPreprocessingWindow(QWidget):
                 self.table_widget.setItem(i, j, QTableWidgetItem(str(self.data_service.data.iat[i, j])))
 
     def accept_data(self):
-        self.window = NeuralNetworkScreen()
+        self.window = SecondWindow()
         self.window.show()
         self.close()
 
+
+class SecondWindow(QMainWindow, Ui_MainWindow):
+    def __init__(self):
+        super(SecondWindow, self).__init__()
+        self.setupUi(self)
+        self.ButtonAdd.clicked.connect(self.add_layer)
+    def add_layer(self):
+        print("connect")
+
+
+class Layer:
+    def __init__(self, name, params):
+        self.name = name
+        self.params = params
+
+    def __str__(self):
+        return self.name
+
+class MyApp(QWidget):
+    def __init__(self):
+        super().__init__()
+        uic.loadUi("forms/neural_network_settings.ui", self)
+
+    def add_layer(self):
+        layer_name = f'Слой {len(self.layers) + 1}'
+        params = f'Параметры: вес = {len(self.layers) * 10}, смещение = {len(self.layers) * 5}'
+        new_layer = Layer(layer_name, params)
+        self.layers.append(new_layer)
+        item = QStandardItem(new_layer.name)
+        self.model.appendRow(item)
+
+    def display_layer_info(self, index):
+        if index.isValid():
+            selected_layer = self.layers[index.row()]
+            self.info_text.setText(f'Имя: {selected_layer.name}n{selected_layer.params}')
 class NeuralNetworkScreen(QWidget):
     def __init__(self):
         super().__init__()
