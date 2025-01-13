@@ -1,10 +1,15 @@
 import pandas as pd
+from PyQt5.QtWidgets import QWidget
 from sklearn.preprocessing import LabelEncoder
+import PyQt5.QtWidgets as q
+from sklearn.model_selection import train_test_split
 
 
 class DataService:
     def __init__(self):
-        self.clening_nullable_values: str = "delete"
+        self.cleaning_nullable_values: str = "delete"
+        self.data : pd.DataFrame = pd.DataFrame()
+        self.column_for_prediction = 0
 
     def read_data(self, url):
         self.data : pd.DataFrame = pd.read_csv(url)
@@ -19,7 +24,7 @@ class DataService:
         self.data = self.data.drop_duplicates(inplace=True)
 
     def clear_nullable_values(self):
-        match(self.clening_nullable_values):
+        match self.cleaning_nullable_values:
             case "delete":
                 self.data = self.data.dropna()
             case "fill":
@@ -37,7 +42,6 @@ class DataService:
             self.data[self.data.select_dtypes(include=['float64', 'int64']).columns] = scaled_data
 
     def prepare_data(self):
-        #self.delete_duplicates()
         self.encode_categorical_variables()
         self.fill_missing_values()
         self.normalize_data()
@@ -54,3 +58,14 @@ class DataService:
         if hasattr(self, 'data'):
             columns = self.data.columns
             self.data.drop(columns=column_name, inplace=True, errors='ignore')
+
+    def split_data(self):
+        return train_test_split(self.data, test_size=0.2, random_state=42)
+if __name__ == "__main__":
+        d = DataService()
+        d.read_data("C:\\Users\\irina\\Downloads\\Mall_Customers.csv")
+        d.prepare_data()
+        x,y = d.split_data()
+        z = x["Genre"]
+        print(f"x = {z}")
+        print(f"y = {y}")

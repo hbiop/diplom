@@ -1,4 +1,4 @@
-from PyQt5.QtGui import QStandardItem
+from PyQt5.QtGui import QStandardItem, QStandardItemModel
 from PyQt5.QtWidgets import (
     QApplication,
     QWidget,
@@ -13,22 +13,22 @@ from PyQt5.QtWidgets import (
     QListView, QMainWindow,
 )
 from forms.neural_network_settings.neural_network_settings import Ui_MainWindow
-
+from files.neural_network.layers.layer import Layer
 from PyQt5 import uic
 import sys
 from files.data_preprocessing.data_cleaning.data_service import DataService
-
+#qt5-tools designer
 
 class MainWindow(QWidget):
     def __init__(self, ds: DataService):
         super().__init__()
         self.data_service : DataService = ds
-        self.setWindowTitle("Data Preprocessing for Neural Network")
+        self.setWindowTitle("Обработка данных для нейронной сети")
         self.setGeometry(100, 100, 800, 600)
 
         self.layout = QVBoxLayout()
 
-        self.load_button = QPushButton("Load CSV Data")
+        self.load_button = QPushButton("Загрузить данные")
         self.load_button.clicked.connect(self.load_data)
         self.layout.addWidget(self.load_button)
         self.delete_button = QPushButton("Удалить колонку")
@@ -80,7 +80,7 @@ class DataPreprocessingWindow(QWidget):
     def __init__(self, ds : DataService):
         super().__init__()
         self.data_service: DataService = ds
-        self.setWindowTitle("Data Preprocessing for Neural Network")
+        self.setWindowTitle("Предпросмотр данных")
         self.setGeometry(100, 100, 800, 600)
         self.layout = QVBoxLayout()
         self.table_widget = QTableWidget()
@@ -102,27 +102,35 @@ class DataPreprocessingWindow(QWidget):
                 self.table_widget.setItem(i, j, QTableWidgetItem(str(self.data_service.data.iat[i, j])))
 
     def accept_data(self):
-        self.window = SecondWindow()
+        self.window = SecondWindow(self.data_service)
         self.window.show()
         self.close()
 
 
 class SecondWindow(QMainWindow, Ui_MainWindow):
-    def __init__(self):
-        super(SecondWindow, self).__init__()
+    def __init__(self, ds: DataService):
+        super(SecondWindow,self).__init__()
         self.setupUi(self)
+        self.data_service = ds
         self.ButtonAdd.clicked.connect(self.add_layer)
+        self.SpinBoxBatchSize.setValue(1)
+        self.SpinBoxBatchSize.valueChanged.connect(self.spin_batch_size_changed)
+        self.layers : list[Layer] = []
+        self.model = QStandardItemModel(self)
+        self.ListViewNeuralNetworkLayers.setModel(self.model)
+
+        for i in range(100):
+            item = QStandardItem(f'Элемент {i}')
+            self.model.appendRow(item)
     def add_layer(self):
         print("connect")
 
+    def spin_batch_size_changed(self):
+        if self.SpinBoxBatchSize.value() > 10:
+            self.SpinBoxBatchSize.setValue(10)
+        if self.SpinBoxBatchSize.value() < 1:
+            self.SpinBoxBatchSize.setValue(1)
 
-class Layer:
-    def __init__(self, name, params):
-        self.name = name
-        self.params = params
-
-    def __str__(self):
-        return self.name
 
 class MyApp(QWidget):
     def __init__(self):
