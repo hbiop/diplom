@@ -9,10 +9,13 @@ class DataService:
     def __init__(self):
         self.cleaning_nullable_values: str = "delete"
         self.data : pd.DataFrame = pd.DataFrame()
+        self.Y : pd.DataFrame = pd.DataFrame()
         self.column_for_prediction = 0
 
     def read_data(self, url):
-        self.data : pd.DataFrame = pd.read_csv(url)
+        data : pd.DataFrame = pd.read_csv(url)
+        self.data = data.drop(['NObeyesdad'], axis=1)
+        self.Y = data['NObeyesdad']
 
     def print_data(self):
         print(self.data)
@@ -60,12 +63,17 @@ class DataService:
             self.data.drop(columns=column_name, inplace=True, errors='ignore')
 
     def split_data(self):
-        return train_test_split(self.data, test_size=0.2, random_state=42)
+        return train_test_split(self.data, self.Y, test_size=0.2, random_state=42)
+
+
+
 if __name__ == "__main__":
-        d = DataService()
-        d.read_data("C:\\Users\\irina\\Downloads\\Mall_Customers.csv")
-        d.prepare_data()
-        x,y = d.split_data()
-        z = x["Genre"]
-        print(f"x = {z}")
-        print(f"y = {y}")
+        #d = DataService()
+        #d.read_data("C:\\Users\\irina\\Downloads\\Mall_Customers.csv")
+        #d.prepare_data()
+        #x,y = d.split_data()
+        #z = x["Genre"]
+        #print(f"x = {z}")
+        #print(f"y = {y}")
+        l = [1,2,3,4]
+        print(l[-2])
