@@ -2,7 +2,7 @@ from abc import ABC
 
 import numpy as np
 from sklearn.preprocessing import OneHotEncoder
-
+import pickle
 from files.data_preprocessing.data_cleaning.data_service import DataService
 
 
@@ -130,17 +130,21 @@ if __name__ == "__main__":
     nn.add_layer(input_size=40, output_size=40, activation_function="sigmoid")
     nn.add_layer(input_size=40, output_size=7, activation_function="sigmoid")
     sum = 0
-    nn.train(X, y, epochs=8000, learning_rate=0.05)
-    t = np.array(x_test)
-    for i in range(len(t)):
-        output = nn.forward(t[i:i + 1])
-        predicted_classes = np.argmax(output)
-        true_classes = np.argmax(Y_test_ar[i])
-        sum += predicted_classes == true_classes
-        print(true_classes)
-        print(predicted_classes)
-    accuracy = sum / len(Y_test_ar)
+    nn.train(X, y, epochs=100, learning_rate=0.05)
+    with open('D:\Acollege\mydict.pkl', 'wb') as f:
+        pickle.dump(nn, f)
 
-    print(f"accuracy is {accuracy}")
+
+    #t = np.array(x_test)
+    #for i in range(len(t)):
+        #output = nn.forward(t[i:i + 1])
+        #predicted_classes = np.argmax(output)
+        #true_classes = np.argmax(Y_test_ar[i])
+        #sum += predicted_classes == true_classes
+        #print(true_classes)
+        #print(predicted_classes)
+    #accuracy = sum / len(Y_test_ar)
+
+    #print(f"accuracy is {accuracy}")
 
 
